@@ -51,11 +51,11 @@ export function Contact() {
           <div className="mt-6 space-y-3">
             {[
               {
-                icon: Mail,
-                label: "harish@example.com",
-                href: "mailto:harish@example.com",
-                color: "text-cyan-400/70",
-              },
+                  icon: Mail,
+                  label: "harishkathiravan93@gmail.com",
+                  href: "https://mail.google.com/mail/?view=cm&fs=1&to=harishkathiravan93@gmail.com",
+                  color: "text-cyan-400/70",
+                },
               {
                 icon: Github,
                 label: "github.com/harishkathiravan-sys",
