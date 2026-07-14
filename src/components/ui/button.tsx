@@ -14,14 +14,14 @@ export function Button({ className, variant = "default", size = "default", asChi
   return (
     <Comp
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:pointer-events-none disabled:opacity-50",
+        "inline-flex items-center justify-center gap-2 rounded-full text-[13px] font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#030014] disabled:pointer-events-none disabled:opacity-50",
         variant === "default" &&
-          "bg-gradient-to-r from-violet-500 to-cyan-400 text-slate-950 shadow-[0_0_40px_rgba(124,58,237,0.35)] hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(34,211,238,0.35)]",
-        variant === "secondary" && "bg-white/8 text-white hover:bg-white/12 border border-white/10",
-        variant === "ghost" && "text-white/85 hover:bg-white/8",
-        variant === "outline" && "border border-white/12 bg-white/4 text-white hover:bg-white/8",
-        size === "sm" && "h-10 px-4",
-        size === "default" && "h-11 px-5",
+          "bg-gradient-to-r from-violet-500 to-cyan-400 text-[#030014] shadow-[0_0_40px_rgba(139,92,246,0.25)] hover:shadow-[0_0_60px_rgba(34,211,238,0.3)] hover:scale-[1.02]",
+        variant === "secondary" && "bg-white/[0.06] text-white/80 border border-white/[0.08] hover:bg-white/[0.1] hover:border-white/[0.12]",
+        variant === "ghost" && "text-white/70 hover:bg-white/[0.06] hover:text-white/90",
+        variant === "outline" && "border border-white/[0.08] bg-white/[0.02] text-white/60 hover:bg-white/[0.06] hover:border-white/[0.12] hover:text-white/80",
+        size === "sm" && "h-9 px-4",
+        size === "default" && "h-10 px-5",
         size === "lg" && "h-12 px-6",
         className,
       )}
