@@ -36,10 +36,15 @@ export default function Home() {
       {/* Loading (returns null, kept for backwards compat) */}
       <LoadingScreen />
 
-      {/* Scroll progress */}
+      {/* Scroll progress bar */}
       <motion.div
-        className="fixed left-0 top-0 z-[90] h-[2px] origin-left bg-gradient-to-r from-violet-500 via-cyan-400 to-fuchsia-500"
-        style={{ scaleX }}
+        className="fixed left-0 top-0 z-[90] h-[3px] origin-left"
+        style={{
+          scaleX,
+          background: "linear-gradient(90deg, #8b5cf6, #22d3ee, #d946ef, #8b5cf6)",
+          backgroundSize: "200% 100%",
+          boxShadow: "0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(34, 211, 238, 0.2)",
+        }}
       />
 
       {/* Noise overlay */}

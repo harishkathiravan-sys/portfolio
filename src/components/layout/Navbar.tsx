@@ -26,9 +26,11 @@ export function Navbar() {
   const activeSection = useActiveSection(sectionIds);
 
   const { scrollY } = useScroll();
-  const navPadding = useTransform(scrollY, [0, 100], [20, 12]);
-  const navWidth = useTransform(scrollY, [0, 100], ["100%", "96%"]);
-  const navRadius = useTransform(scrollY, [0, 100], ["0px", "20px"]);
+  const navTop = useTransform(scrollY, [0, 100], [16, 12]);
+  const navWidth = useTransform(scrollY, [0, 100], ["100%", "min(96%, 1200px)"]);
+  const navRadius = useTransform(scrollY, [0, 100], ["0px", "24px"]);
+  const navPaddingY = useTransform(scrollY, [0, 100], [14, 10]);
+  const navPaddingX = useTransform(scrollY, [0, 100], [24, 28]);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 50);
@@ -44,40 +46,75 @@ export function Navbar() {
     <>
       <motion.header
         className={cn(
-          "fixed left-0 right-0 z-50 transition-all duration-500",
-          scrolled
-            ? "border border-white/[0.06] bg-[rgba(3,0,20,0.75)] shadow-[0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(139,92,246,0.04)]"
-            : "border-b border-transparent bg-transparent",
+          "fixed left-0 right-0 z-50",
         )}
         style={{
-          top: navPadding,
+          top: navTop,
           width: navWidth,
           marginLeft: "auto",
           marginRight: "auto",
           borderRadius: navRadius,
-          backdropFilter: scrolled ? "blur(40px) saturate(1.2)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(40px) saturate(1.2)" : "none",
+          paddingLeft: navPaddingX,
+          paddingRight: navPaddingX,
+          paddingTop: navPaddingY,
+          paddingBottom: navPaddingY,
+          background: scrolled
+            ? "rgba(10, 10, 30, 0.65)"
+            : "transparent",
+          border: scrolled
+            ? "1px solid rgba(255, 255, 255, 0.06)"
+            : "1px solid transparent",
+          borderBottom: scrolled
+            ? "1px solid rgba(255, 255, 255, 0.06)"
+            : "1px solid rgba(255, 255, 255, 0.06)",
+          backdropFilter: scrolled ? "blur(40px) saturate(1.3)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(40px) saturate(1.3)" : "none",
+          boxShadow: scrolled
+            ? "0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.03) inset, 0 1px 0 rgba(255,255,255,0.05) inset, 0 0 80px rgba(139, 92, 246, 0.05)"
+            : "none",
+          transition: "background 0.5s cubic-bezier(0.23, 1, 0.32, 1), border 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
         }}
       >
-        {/* Top edge light when scrolled */}
+        {/* Top edge light line when scrolled */}
         {scrolled && (
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[1px] rounded-[inherit]" style={{ background: "linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.15) 30%, rgba(34, 211, 238, 0.1) 70%, transparent)" }} />
+          <div
+            className="pointer-events-none absolute inset-x-0 top-0 h-[1px] rounded-[inherit]"
+            style={{
+              background:
+                "linear-gradient(90deg, transparent 5%, rgba(139, 92, 246, 0.2) 25%, rgba(167, 139, 250, 0.12) 50%, rgba(34, 211, 238, 0.15) 75%, transparent 95%)",
+            }}
+          />
         )}
 
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-6 lg:px-8">
-          <Link href="#hero" className="group flex items-center gap-3">
-            <div className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all duration-300 group-hover:border-violet-500/30 group-hover:shadow-[0_0_20px_rgba(139,92,246,0.3)]">
-              <Sparkles className="h-4 w-4 text-violet-400 transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(139,92,246,0.5)]" />
+        {/* Inner glass highlight when scrolled */}
+        {scrolled && (
+          <div
+            className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-30"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 40%)",
+            }}
+          />
+        )}
+
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
+          {/* Logo */}
+          <Link href="#hero" className="group relative flex items-center gap-3">
+            <div className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] transition-all duration-500 group-hover:border-violet-500/40 group-hover:bg-violet-500/[0.08] group-hover:shadow-[0_0_24px_rgba(139,92,246,0.25)]">
+              <Sparkles className="h-4 w-4 text-violet-400 transition-all duration-500 group-hover:text-violet-300 group-hover:drop-shadow-[0_0_10px_rgba(139,92,246,0.6)]" />
             </div>
             <div className="hidden sm:block">
-              <p className="font-[family-name:var(--font-space-grotesk)] text-[13px] font-semibold tracking-[0.2em] text-white/80 uppercase">
+              <p className="font-[family-name:var(--font-space-grotesk)] text-[13px] font-semibold tracking-[0.2em] uppercase text-gradient-static">
                 Harish
               </p>
-              <p className="text-[10px] tracking-wider text-white/40 uppercase">AI Engineer</p>
+              <p className="text-[10px] font-medium tracking-[0.15em] uppercase text-white/30 transition-colors duration-300 group-hover:text-white/50">
+                AI Engineer
+              </p>
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-1 lg:flex">
+          {/* Desktop nav */}
+          <nav className="hidden items-center gap-0.5 lg:flex">
             {navItems.map((item) => {
               const isActive = activeSection === item.href.replace("#", "");
               return (
@@ -85,18 +122,27 @@ export function Navbar() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "relative rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-all duration-300",
+                    "relative rounded-full px-3.5 py-1.5 text-[12px] font-medium tracking-wide transition-all duration-300",
                     isActive
                       ? "text-white"
-                      : "text-white/50 hover:text-white/80",
+                      : "text-white/40 hover:text-white/75",
                   )}
                 >
                   {isActive && (
                     <motion.div
                       layoutId="nav-active"
-                      className="absolute inset-0 rounded-full bg-white/[0.07] border border-white/[0.08]"
-                      style={{ boxShadow: "0 0 20px rgba(139, 92, 246, 0.1)" }}
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      className="absolute inset-0 rounded-full border border-white/[0.08]"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%)",
+                        boxShadow:
+                          "0 0 24px rgba(139, 92, 246, 0.12), 0 0 4px rgba(139, 92, 246, 0.08) inset",
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 30,
+                      }}
                     />
                   )}
                   <span className="relative z-10">{item.label}</span>
@@ -105,46 +151,98 @@ export function Navbar() {
             })}
           </nav>
 
+          {/* Action buttons */}
           <div className="flex items-center gap-2">
+            {/* Theme toggle */}
             <button
               onClick={() => setDarkMode((v) => !v)}
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/60 transition-all duration-300 hover:border-white/20 hover:text-white hover:shadow-[0_0_12px_rgba(139,92,246,0.15)]"
+              className="group/btn flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] text-white/50 transition-all duration-400 hover:border-violet-500/30 hover:bg-violet-500/[0.08] hover:text-white hover:shadow-[0_0_20px_rgba(139,92,246,0.15)]"
               aria-label="Toggle theme"
             >
-              {darkMode ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+              {darkMode ? (
+                <Sun className="h-[15px] w-[15px] transition-transform duration-500 group-hover/btn:rotate-90" />
+              ) : (
+                <Moon className="h-[15px] w-[15px] transition-transform duration-500 group-hover/btn:-rotate-90" />
+              )}
             </button>
+
+            {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen((v) => !v)}
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/60 transition-all duration-300 hover:border-white/20 hover:text-white lg:hidden"
+              className="group/btn flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] text-white/50 transition-all duration-400 hover:border-violet-500/30 hover:bg-violet-500/[0.08] hover:text-white hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] lg:hidden"
               aria-label="Toggle navigation menu"
             >
-              {menuOpen ? <X className="h-3.5 w-3.5" /> : <Menu className="h-3.5 w-3.5" />}
+              <motion.div
+                initial={false}
+                animate={{ rotate: menuOpen ? 90 : 0 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              >
+                {menuOpen ? (
+                  <X className="h-[15px] w-[15px]" />
+                ) : (
+                  <Menu className="h-[15px] w-[15px]" />
+                )}
+              </motion.div>
             </button>
           </div>
         </div>
 
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="border-t border-white/[0.06] bg-[rgba(3,0,20,0.95)] px-5 py-4 backdrop-blur-[40px] lg:hidden"
-          >
-            <div className="flex flex-col gap-1">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="rounded-xl px-4 py-2.5 text-sm text-white/60 transition-all duration-300 hover:bg-white/[0.05] hover:text-white"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ))}
+        {/* Mobile menu */}
+        <motion.div
+          initial={false}
+          animate={{
+            height: menuOpen ? "auto" : 0,
+            opacity: menuOpen ? 1 : 0,
+          }}
+          transition={{
+            height: { type: "spring", stiffness: 300, damping: 30 },
+            opacity: { duration: 0.2 },
+          }}
+          className="overflow-hidden lg:hidden"
+        >
+          <div className="border-t border-white/[0.05] pt-2 pb-1">
+            <div className="flex flex-col gap-0.5">
+              {navItems.map((item, index) => {
+                const isActive = activeSection === item.href.replace("#", "");
+                return (
+                  <motion.a
+                    key={item.href}
+                    href={item.href}
+                    initial={false}
+                    animate={menuOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
+                    transition={{
+                      delay: menuOpen ? index * 0.04 : 0,
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 28,
+                    }}
+                    className={cn(
+                      "relative rounded-xl px-4 py-2.5 text-[13px] font-medium tracking-wide transition-all duration-300",
+                      isActive
+                        ? "text-white bg-white/[0.06] border border-white/[0.06]"
+                        : "text-white/45 hover:bg-white/[0.05] hover:text-white/80 border border-transparent",
+                    )}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {/* Hover glow effect per item */}
+                    <div className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-gradient-to-r from-violet-500/[0.04] to-cyan-500/[0.02]" />
+                    <span className="relative z-10">{item.label}</span>
+                    {isActive && (
+                      <div
+                        className="absolute left-0 top-1/2 h-4 w-[2px] -translate-y-1/2 rounded-full"
+                        style={{
+                          background:
+                            "linear-gradient(180deg, rgba(139, 92, 246, 0.6), rgba(34, 211, 238, 0.4))",
+                          boxShadow: "0 0 8px rgba(139, 92, 246, 0.3)",
+                        }}
+                      />
+                    )}
+                  </motion.a>
+                );
+              })}
             </div>
-          </motion.div>
-        )}
+          </div>
+        </motion.div>
       </motion.header>
     </>
   );

@@ -65,21 +65,25 @@ const skillGroups = [
   },
 ];
 
+const maxItems = Math.max(...skillGroups.map((g) => g.items.length));
+
 export function Skills() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [activeGroup, setActiveGroup] = useState(0);
+  const current = skillGroups[activeGroup];
 
   return (
     <section id="skills" ref={ref} className="relative py-28 sm:py-36">
       <div className="section-divider mb-20" />
 
+      {/* ── Section heading ── */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
       >
-        <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.4em] text-violet-300/50">
+        <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.4em] text-violet-300/50">
           Skills
         </p>
         <h2 className="font-[family-name:var(--font-space-grotesk)] text-[clamp(1.75rem,4vw,3.25rem)] leading-tight font-semibold tracking-[-0.02em] text-white/90">
@@ -89,8 +93,10 @@ export function Skills() {
         </h2>
       </motion.div>
 
-      <div className="mt-14 grid gap-8 lg:grid-cols-[280px_1fr]">
-        {/* Sidebar: Category tabs */}
+      {/* ── Explorer layout ── */}
+      <div className="mt-20 grid gap-8 lg:grid-cols-[300px_1fr]">
+
+        {/* ── Sidebar tabs ── */}
         <motion.div
           className="flex flex-row gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-x-visible lg:pb-0"
           initial={{ opacity: 0, x: -20 }}
@@ -105,123 +111,244 @@ export function Skills() {
                 key={group.title}
                 onClick={() => setActiveGroup(i)}
                 className={cn(
-                  "group flex items-center gap-3 rounded-2xl px-4 py-3 text-left transition-all duration-300 whitespace-nowrap lg:whitespace-normal",
+                  "group relative flex items-center gap-3.5 rounded-2xl px-4 py-3.5 text-left transition-all duration-300 whitespace-nowrap lg:whitespace-normal",
                   isActive
-                    ? "bg-white/[0.06] border border-white/[0.08]"
+                    ? "border border-white/[0.08]"
                     : "border border-transparent hover:bg-white/[0.03]",
                 )}
+                style={{
+                  background: isActive
+                    ? `linear-gradient(135deg, ${group.color}08, ${group.color}03)`
+                    : undefined,
+                  backdropFilter: "blur(20px)",
+                }}
               >
-                {/* Active glow border */}
+                {/* ── Active left glow bar ── */}
                 {isActive && (
-                  <div
-                    className="absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-full"
+                  <motion.div
+                    layoutId="skills-tab-glow"
+                    className="absolute left-0 top-1/2 h-10 w-[3px] -translate-y-1/2 rounded-full"
                     style={{
-                      background: `linear-gradient(180deg, ${group.color}, transparent)`,
-                      boxShadow: `0 0 12px ${group.color}40`,
+                      background: `linear-gradient(180deg, ${group.color}, ${group.color}40)`,
+                      boxShadow: `0 0 16px ${group.color}60, 0 0 32px ${group.color}20`,
                     }}
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
+
+                {/* ── Icon container ── */}
                 <div
                   className={cn(
-                    "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-all duration-300",
+                    "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all duration-300",
                     isActive ? "bg-white/[0.08]" : "bg-white/[0.03]",
                   )}
-                  style={isActive ? { boxShadow: `0 0 20px ${group.color}20` } : {}}
+                  style={
+                    isActive
+                      ? { boxShadow: `0 0 24px ${group.color}25, inset 0 0 20px ${group.color}08` }
+                      : {}
+                  }
                 >
                   <Icon
-                    className="h-4 w-4 transition-colors duration-300"
-                    style={{ color: isActive ? group.color : "rgba(255,255,255,0.3)" }}
+                    className="h-[18px] w-[18px] transition-colors duration-300"
+                    style={{ color: isActive ? group.color : "rgba(255,255,255,0.25)" }}
                   />
                 </div>
-                <span
-                  className={cn(
-                    "font-[family-name:var(--font-space-grotesk)] text-[13px] font-medium transition-colors duration-300",
-                    isActive ? "text-white/90" : "text-white/40",
-                  )}
-                >
-                  {group.title}
-                </span>
+
+                {/* ── Label + count badge ── */}
+                <div className="flex flex-1 items-center gap-2">
+                  <span
+                    className={cn(
+                      "font-[family-name:var(--font-space-grotesk)] text-[13px] font-medium transition-colors duration-300",
+                      isActive ? "text-white/90" : "text-white/40",
+                    )}
+                  >
+                    {group.title}
+                  </span>
+                  <span
+                    className={cn(
+                      "ml-auto flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-semibold transition-all duration-300",
+                      isActive
+                        ? "text-white/90"
+                        : "bg-white/[0.04] text-white/20",
+                    )}
+                    style={
+                      isActive
+                        ? {
+                            background: `${group.color}20`,
+                            color: group.color,
+                            boxShadow: `0 0 8px ${group.color}15`,
+                          }
+                        : {}
+                    }
+                  >
+                    {group.items.length}
+                  </span>
+                </div>
               </button>
             );
           })}
         </motion.div>
 
-        {/* Content area */}
+        {/* ── Content panel ── */}
         <motion.div
-          className="glass-card rounded-3xl p-8 sm:p-10"
+          className="relative overflow-hidden rounded-3xl"
           initial={{ opacity: 0, x: 20 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
         >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeGroup}
-              initial={{ opacity: 0, y: 12, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -12, scale: 0.98 }}
-              transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-            >
-              <div className="mb-6 flex items-center gap-3">
-                {(() => {
-                  const Icon = skillGroups[activeGroup].icon;
-                  return (
-                    <div
-                      className="flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300"
+          {/* Gradient border layer */}
+          <div
+            className="absolute inset-0 rounded-3xl p-px"
+            style={{
+              background: `linear-gradient(135deg, ${current.color}25, transparent 50%, ${current.color}10)`,
+            }}
+          >
+            <div className="h-full w-full rounded-3xl" />
+          </div>
+
+          {/* Glass card body */}
+          <div className="relative glass-card rounded-3xl p-8 sm:p-10 lg:p-12">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeGroup}
+                initial={{ opacity: 0, y: 16, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -16, scale: 0.97 }}
+                transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
+              >
+                {/* ── Category header ── */}
+                <div className="mb-10 flex items-center gap-4">
+                  {(() => {
+                    const Icon = current.icon;
+                    return (
+                      <div
+                        className="flex h-14 w-14 items-center justify-center rounded-2xl"
+                        style={{
+                          background: `linear-gradient(135deg, ${current.color}18, ${current.color}06)`,
+                          boxShadow: `0 0 32px ${current.color}20, 0 0 64px ${current.color}08`,
+                        }}
+                      >
+                        <Icon
+                          className="h-7 w-7"
+                          style={{ color: current.color }}
+                        />
+                      </div>
+                    );
+                  })()}
+                  <div>
+                    <h3 className="font-[family-name:var(--font-space-grotesk)] text-[22px] font-semibold text-white/90">
+                      {current.title}
+                    </h3>
+                    <p className="mt-0.5 text-[13px] text-white/30">
+                      {current.items.length} technologies
+                    </p>
+                  </div>
+                </div>
+
+                {/* ── Tech chips ── */}
+                <div className="flex flex-wrap gap-3">
+                  {current.items.map((item, j) => (
+                    <motion.span
+                      key={item}
+                      initial={{ opacity: 0, scale: 0.9, y: 8 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{
+                        duration: 0.35,
+                        delay: j * 0.05,
+                        ease: [0.23, 1, 0.32, 1],
+                      }}
+                      className="group/chip relative cursor-default overflow-hidden rounded-xl px-4 py-2.5 text-[13px] font-medium text-white/80 transition-all duration-300"
                       style={{
-                        background: `${skillGroups[activeGroup].color}12`,
-                        boxShadow: `0 0 24px ${skillGroups[activeGroup].color}15`,
+                        background: `linear-gradient(135deg, ${current.color}12, ${current.color}05)`,
+                        border: `1px solid ${current.color}18`,
+                        boxShadow: `inset 0 1px 0 ${current.color}08`,
                       }}
                     >
-                      <Icon
-                        className="h-5 w-5"
-                        style={{ color: skillGroups[activeGroup].color }}
+                      {/* Hover glow overlay */}
+                      <div
+                        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover/chip:opacity-100"
+                        style={{
+                          boxShadow: `inset 0 0 20px ${current.color}12, 0 0 20px ${current.color}10`,
+                        }}
                       />
-                    </div>
-                  );
-                })()}
-                <div>
-                  <h3 className="font-[family-name:var(--font-space-grotesk)] text-[18px] font-semibold text-white/90">
-                    {skillGroups[activeGroup].title}
-                  </h3>
-                  <p className="text-[12px] text-white/30">
-                    {skillGroups[activeGroup].items.length} technologies
-                  </p>
+                      <span className="relative flex items-center gap-2">
+                        <span
+                          className="h-1.5 w-1.5 shrink-0 rounded-full"
+                          style={{
+                            background: current.color,
+                            boxShadow: `0 0 6px ${current.color}60`,
+                          }}
+                        />
+                        {item}
+                      </span>
+                    </motion.span>
+                  ))}
                 </div>
-              </div>
 
-              <div className="flex flex-wrap gap-2.5">
-                {skillGroups[activeGroup].items.map((item, j) => (
-                  <motion.span
-                    key={item}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: j * 0.04 }}
-                    className="tech-chip"
-                    style={{
-                      borderColor: `${skillGroups[activeGroup].color}20`,
-                    }}
-                  >
+                {/* ── Progress / level indicator ── */}
+                <div className="mt-10">
+                  <div className="mb-2.5 flex items-center justify-between">
+                    <span className="text-[11px] font-medium uppercase tracking-[0.25em] text-white/20">
+                      Proficiency
+                    </span>
                     <span
-                      className="tech-chip-dot"
-                      style={{ background: skillGroups[activeGroup].color }}
+                      className="text-[12px] font-semibold"
+                      style={{ color: `${current.color}90` }}
+                    >
+                      {Math.round((current.items.length / maxItems) * 100)}%
+                    </span>
+                  </div>
+                  <div className="relative h-1.5 overflow-hidden rounded-full bg-white/[0.04]">
+                    <motion.div
+                      key={`bar-${activeGroup}`}
+                      className="absolute inset-y-0 left-0 rounded-full"
+                      style={{
+                        background: `linear-gradient(90deg, ${current.color}, ${current.color}90)`,
+                        boxShadow: `0 0 12px ${current.color}40`,
+                      }}
+                      initial={{ width: "0%" }}
+                      animate={{
+                        width: `${(current.items.length / maxItems) * 100}%`,
+                      }}
+                      transition={{
+                        duration: 1,
+                        ease: [0.23, 1, 0.32, 1],
+                      }}
                     />
-                    {item}
-                  </motion.span>
-                ))}
-              </div>
-
-              {/* Decorative bar with shimmer */}
-              <div className="mt-8 h-1 overflow-hidden rounded-full bg-white/[0.04]">
-                <motion.div
-                  className="shimmer relative h-full rounded-full"
-                  style={{ background: skillGroups[activeGroup].color }}
-                  initial={{ width: "0%" }}
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
-                />
-              </div>
-            </motion.div>
-          </AnimatePresence>
+                    {/* Shimmer overlay */}
+                    <motion.div
+                      className="absolute inset-y-0 left-0 w-full"
+                      style={{
+                        background: `linear-gradient(90deg, transparent, ${current.color}30, transparent)`,
+                      }}
+                      initial={{ x: "-100%" }}
+                      animate={{ x: "200%" }}
+                      transition={{
+                        duration: 2,
+                        delay: 0.8,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  </div>
+                  {/* Segment markers */}
+                  <div className="mt-3 flex gap-1.5">
+                    {Array.from({ length: maxItems }).map((_, k) => (
+                      <div
+                        key={k}
+                        className="h-0.5 flex-1 rounded-full transition-colors duration-500"
+                        style={{
+                          background:
+                            k < current.items.length
+                              ? `${current.color}${k < current.items.length ? "50" : "15"}`
+                              : "rgba(255,255,255,0.04)",
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </motion.div>
       </div>
     </section>

@@ -98,15 +98,17 @@ export function Projects() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="projects" ref={ref} className="relative py-28 sm:py-36">
-      <div className="section-divider mb-20" />
+    <section id="projects" ref={ref} className="relative py-32 sm:py-40">
+      <div className="section-divider mb-24" />
 
+      {/* Section heading */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
+        className="text-center"
       >
-        <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.4em] text-violet-300/50">
+        <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.4em] text-violet-300/50">
           Featured Projects
         </p>
         <h2 className="font-[family-name:var(--font-space-grotesk)] text-[clamp(1.75rem,4vw,3.25rem)] leading-tight font-semibold tracking-[-0.02em] text-white/90">
@@ -114,91 +116,119 @@ export function Projects() {
           <br />
           <span className="text-gradient-static">AI engineering with product design.</span>
         </h2>
+        <div className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-violet-400/40 to-transparent" />
       </motion.div>
 
-      <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      {/* Project grid */}
+      <div className="mt-16 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
         {projects.map((project, i) => (
           <motion.div
             key={project.name}
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{
-              duration: 0.6,
-              delay: 0.1 + i * 0.06,
+              duration: 0.65,
+              delay: 0.12 + i * 0.07,
               ease: [0.23, 1, 0.32, 1],
             }}
           >
             <TiltCard className="h-full" glareColor={`${project.accent}18`}>
-              <div className="glass-card gradient-border group relative flex h-full flex-col overflow-hidden rounded-3xl p-7">
-                {/* Accent glow behind card */}
+              <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:bg-white/[0.035] hover:shadow-[0_20px_60px_-12px_rgba(0,0,0,0.5)]" style={{ border: "1px solid rgba(255,255,255,0.06)" }}>
+
+                {/* Gradient accent bar at top */}
                 <div
-                  className="pointer-events-none absolute -inset-1 rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                  className="h-[3px] w-full shrink-0 transition-all duration-500 group-hover:h-[4px]"
                   style={{
-                    background: `radial-gradient(ellipse at 50% 0%, ${project.accent}12, transparent 70%)`,
+                    background: `linear-gradient(90deg, ${project.accent}00, ${project.accent}, ${project.accent}00)`,
                   }}
                 />
-                {/* Shimmer */}
-                <div className="card-shimmer" />
 
-                {/* Header */}
-                <div className="relative flex items-start justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] uppercase tracking-[0.25em] text-white/25">
-                      {project.metric}
-                    </p>
-                    <h3 className="mt-2 font-[family-name:var(--font-space-grotesk)] text-[20px] font-semibold text-white/90">
-                      {project.name}
-                    </h3>
-                  </div>
-                  <div
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.03] text-white/30 transition-all duration-300 group-hover:scale-110 group-hover:text-violet-400 group-hover:shadow-[0_0_16px_rgba(139,92,246,0.15)]"
-                  >
-                    <Cpu className="h-4 w-4" />
-                  </div>
-                </div>
+                {/* Accent glow on hover */}
+                <div
+                  className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-600 group-hover:opacity-100"
+                  style={{
+                    background: `radial-gradient(ellipse at 50% -10%, ${project.accent}15, transparent 60%)`,
+                    boxShadow: `inset 0 1px 0 0 ${project.accent}10`,
+                  }}
+                />
 
-                {/* Description */}
-                <p className="relative mt-4 text-[13px] leading-relaxed text-white/40">
-                  {project.description}
-                </p>
+                {/* Inner shadow for depth */}
+                <div className="pointer-events-none absolute inset-0 rounded-3xl shadow-[inset_0_2px_20px_-4px_rgba(0,0,0,0.3)] group-hover:shadow-[inset_0_2px_20px_-4px_rgba(0,0,0,0.2)] transition-shadow duration-500" />
 
-                {/* Tech chips */}
-                <div className="relative mt-5 flex flex-wrap gap-1.5">
-                  {project.tech.map((t) => (
-                    <span
-                      key={t.name}
-                      className="tech-chip transition-all duration-300 hover:scale-105"
+                {/* Card content */}
+                <div className="relative flex flex-1 flex-col p-7 sm:p-8">
+
+                  {/* Header row */}
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1 min-w-0">
+                      <h3
+                        className="font-[family-name:var(--font-space-grotesk)] text-[22px] font-bold tracking-[-0.01em] text-white/95 transition-colors duration-300 group-hover:text-white"
+                      >
+                        {project.name}
+                      </h3>
+                    </div>
+                    <div
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04] text-white/30 transition-all duration-400 group-hover:scale-110 group-hover:border-white/[0.12] group-hover:bg-white/[0.08]"
                       style={{
-                        borderColor: `${t.color}20`,
+                        color: `${project.accent}80`,
                       }}
                     >
-                      <span
-                        className="tech-chip-dot"
-                        style={{ background: t.color }}
-                      />
-                      {t.name}
-                    </span>
-                  ))}
-                </div>
+                      <Cpu className="h-[18px] w-[18px]" style={{ color: `var(--tw-shadow-color, ${project.accent}90)` }} />
+                    </div>
+                  </div>
 
-                {/* Actions */}
-                <div className="relative mt-auto flex gap-2 pt-6">
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[12px] font-medium text-white/50 transition-all duration-300 hover:border-white/15 hover:bg-white/[0.06] hover:text-white/80 hover:shadow-[0_0_12px_rgba(139,92,246,0.1)]"
+                  {/* Metric tagline */}
+                  <p
+                    className="mt-3 text-[13px] font-medium tracking-wide"
+                    style={{ color: `${project.accent}cc` }}
                   >
-                    <Github className="h-3.5 w-3.5" />
-                    Code
-                  </a>
-                  <a
-                    href="#"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[12px] font-medium text-white/50 transition-all duration-300 hover:border-white/15 hover:bg-white/[0.06] hover:text-white/80 hover:shadow-[0_0_12px_rgba(34,211,238,0.1)]"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    Demo
-                  </a>
+                    {project.metric}
+                  </p>
+
+                  {/* Description */}
+                  <p className="mt-4 text-[13px] leading-[1.7] text-white/38">
+                    {project.description}
+                  </p>
+
+                  {/* Tech chips */}
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {project.tech.map((t) => (
+                      <span
+                        key={t.name}
+                        className="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[11px] font-medium text-white/50 transition-all duration-300 hover:scale-105 hover:text-white/75"
+                        style={{
+                          borderColor: `${t.color}25`,
+                          backgroundColor: `${t.color}08`,
+                        }}
+                      >
+                        <span
+                          className="h-1.5 w-1.5 rounded-full"
+                          style={{ background: t.color }}
+                        />
+                        {t.name}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="relative mt-auto flex gap-3 pt-7">
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="glass-button inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm px-5 py-2.5 text-[12px] font-semibold uppercase tracking-wider text-white/50 transition-all duration-400 hover:border-white/[0.15] hover:bg-white/[0.08] hover:text-white/85 hover:shadow-[0_0_20px_-4px_rgba(139,92,246,0.25)]"
+                    >
+                      <Github className="h-3.5 w-3.5" />
+                      Code
+                    </a>
+                    <a
+                      href="#"
+                      className="glass-button inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm px-5 py-2.5 text-[12px] font-semibold uppercase tracking-wider text-white/50 transition-all duration-400 hover:border-white/[0.15] hover:bg-white/[0.08] hover:text-white/85 hover:shadow-[0_0_20px_-4px_rgba(34,211,238,0.25)]"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      Demo
+                    </a>
+                  </div>
                 </div>
               </div>
             </TiltCard>
