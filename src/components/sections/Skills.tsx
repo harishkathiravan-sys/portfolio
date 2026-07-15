@@ -196,7 +196,7 @@ export function Skills() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3, delay: j * 0.04 }}
-                    className="tech-chip cursor-default"
+                    className="tech-chip"
                     style={{
                       borderColor: `${skillGroups[activeGroup].color}20`,
                     }}

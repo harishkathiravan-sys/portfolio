@@ -8,9 +8,17 @@ interface TrailPoint {
   y: number;
 }
 
+type HoverType = "link" | "button" | "input" | "none";
+
+const LABEL_MAP: Record<Exclude<HoverType, "none">, string> = {
+  link: "View",
+  button: "Click",
+  input: "Type",
+};
+
 export function CustomCursor() {
   const { x, y } = useMousePosition();
-  const [hovering, setHovering] = useState(false);
+  const [hoverType, setHoverType] = useState<HoverType>("none");
   const [visible, setVisible] = useState(false);
   const [trail, setTrail] = useState<TrailPoint[]>([]);
   const prevPos = useRef({ x: 0, y: 0 });
@@ -20,21 +28,32 @@ export function CustomCursor() {
     if (isTouchDevice) return;
     setVisible(true);
 
-    const handleOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (
-        target.closest("a") ||
-        target.closest("button") ||
-        target.closest("[role='button']") ||
-        target.closest("input") ||
-        target.closest("textarea") ||
-        target.closest(".magnetic-wrap")
-      ) {
-        setHovering(true);
+    const resolveType = (target: HTMLElement): HoverType => {
+      if (target.closest("input") || target.closest("textarea") || target.closest("[contenteditable]")) {
+        return "input";
       }
+      if (target.closest("button") || target.closest("[role='button']") || target.closest(".cta-premium")) {
+        return "button";
+      }
+      if (target.closest("a") || target.closest(".magnetic-wrap")) {
+        return "link";
+      }
+      return "none";
     };
 
-    const handleOut = () => setHovering(false);
+    const handleOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      setHoverType(resolveType(target));
+    };
+
+    const handleOut = (e: MouseEvent) => {
+      const related = e.relatedTarget as HTMLElement | null;
+      if (related) {
+        setHoverType(resolveType(related));
+      } else {
+        setHoverType("none");
+      }
+    };
 
     document.addEventListener("mouseover", handleOver);
     document.addEventListener("mouseout", handleOut);
@@ -58,6 +77,13 @@ export function CustomCursor() {
 
   if (!visible) return null;
 
+  const isHovering = hoverType !== "none";
+  const cursorClass = isHovering
+    ? hoverType === "input"
+      ? "hovering-input"
+      : `hovering-${hoverType}`
+    : "";
+
   return (
     <>
       {/* Trail dots */}
@@ -68,21 +94,30 @@ export function CustomCursor() {
           style={{
             left: point.x,
             top: point.y,
-            opacity: (i + 1) / trail.length * 0.3,
+            opacity: ((i + 1) / trail.length) * 0.3,
             background: "rgba(139, 92, 246, 0.6)",
           }}
         />
       ))}
       {/* Ring cursor */}
       <div
-        className="custom-cursor hidden md:block"
-        style={{ left: x, top: y, opacity: hovering ? 1 : 0.5 }}
+        className={`custom-cursor hidden md:block ${cursorClass}`}
+        style={{ left: x, top: y, opacity: isHovering ? 1 : 0.5 }}
       />
       {/* Dot cursor */}
       <div
         className="cursor-dot hidden md:block"
         style={{ left: x, top: y }}
       />
+      {/* Context label */}
+      {isHovering && (
+        <div
+          className={`cursor-label hidden md:block ${isHovering ? "visible" : ""}`}
+          style={{ left: x, top: y }}
+        >
+          {LABEL_MAP[hoverType]}
+        </div>
+      )}
     </>
   );
 }
