@@ -23,7 +23,7 @@ export function Experience() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="experience" ref={ref} className="relative py-24 sm:py-32">
+    <section id="experience" ref={ref} className="relative py-28 sm:py-36">
       <div className="section-divider mb-20" />
 
       <motion.div
@@ -42,13 +42,17 @@ export function Experience() {
       </motion.div>
 
       <div className="relative mt-14 pl-12 sm:pl-14">
-        {/* Timeline line */}
+        {/* Timeline line with glow */}
         <motion.div
           className="timeline-line"
           initial={{ scaleY: 0 }}
           animate={isInView ? { scaleY: 1 } : {}}
           transition={{ duration: 1, delay: 0.3, ease: [0.23, 1, 0.32, 1] }}
-          style={{ transformOrigin: "top" }}
+          style={{
+            transformOrigin: "top",
+            width: "2px",
+            filter: "drop-shadow(0 0 6px rgba(139, 92, 246, 0.3))",
+          }}
         />
 
         {experience.map((item, i) => (
@@ -63,13 +67,17 @@ export function Experience() {
               ease: [0.23, 1, 0.32, 1],
             }}
           >
-            {/* Timeline dot */}
+            {/* Timeline dot with pulsing ring */}
             <div className="timeline-dot">
               <div className="absolute inset-0 rounded-full bg-violet-500/20 glow-pulse" />
+              <div className="timeline-dot-pulse" />
             </div>
 
-            <div className="glass-card gradient-border rounded-3xl p-8 sm:p-10">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="glass-card gradient-border group relative overflow-hidden rounded-3xl p-8 sm:p-10 transition-all duration-500 hover:translate-y-[-2px]">
+              {/* Shimmer on hover */}
+              <div className="card-shimmer" />
+
+              <div className="relative flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <Briefcase className="h-3.5 w-3.5 text-violet-400/60" />
@@ -82,16 +90,16 @@ export function Experience() {
                   </h3>
                   <p className="mt-1 text-[14px] text-white/40">{item.company}</p>
                 </div>
-                <span className="inline-flex w-fit items-center rounded-full border border-emerald-500/15 bg-emerald-500/8 px-3.5 py-1 text-[11px] font-medium text-emerald-300/70">
+                <span className="inline-flex w-fit items-center rounded-full border border-emerald-500/20 bg-gradient-to-r from-emerald-500/10 to-emerald-500/5 px-3.5 py-1 text-[11px] font-medium text-emerald-300/70 shadow-[0_0_12px_rgba(52,211,153,0.1)]">
                   {item.badge}
                 </span>
               </div>
 
-              <div className="mt-6 space-y-3">
+              <div className="relative mt-6 space-y-3">
                 {item.points.map((point, j) => (
                   <motion.div
                     key={j}
-                    className="flex items-start gap-3 rounded-2xl border border-white/[0.04] bg-white/[0.02] px-5 py-4"
+                    className="flex items-start gap-3 rounded-2xl border border-white/[0.04] bg-white/[0.02] px-5 py-4 transition-all duration-300 hover:border-white/[0.08] hover:bg-white/[0.03]"
                     initial={{ opacity: 0, y: 10 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{
@@ -100,7 +108,7 @@ export function Experience() {
                       ease: [0.23, 1, 0.32, 1],
                     }}
                   >
-                    <div className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-400/50" />
+                    <div className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-400/50 shadow-[0_0_8px_rgba(139,92,246,0.3)]" />
                     <p className="text-[13px] leading-relaxed text-white/50">{point}</p>
                   </motion.div>
                 ))}

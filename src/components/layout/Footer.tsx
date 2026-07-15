@@ -8,6 +8,8 @@ const linkedinProfile = "https://www.linkedin.com/in/harish-kathiravan-05b229304
 export function Footer() {
   return (
     <footer className="relative z-10 border-t border-white/[0.04]">
+      {/* Aurora gradient border */}
+      <div className="absolute inset-x-0 top-0 h-[1px] max-w-7xl mx-auto" style={{ background: "linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.2) 30%, rgba(34, 211, 238, 0.15) 70%, transparent)" }} />
       <div className="section-divider" />
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
@@ -23,7 +25,7 @@ export function Footer() {
           <div className="flex items-center gap-6">
             <a
               href="#hero"
-              className="group flex items-center gap-2 text-[13px] text-white/35 transition-colors duration-300 hover:text-white/70"
+              className="group flex items-center gap-2 text-[13px] text-white/35 transition-all duration-300 hover:text-white/70 hover:drop-shadow-[0_0_8px_rgba(139,92,246,0.3)]"
             >
               <ArrowUp className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5" />
               Back to top

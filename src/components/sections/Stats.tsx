@@ -11,7 +11,7 @@ const stats = [
     suffix: "+",
     icon: Activity,
     color: "#8b5cf6",
-    gradient: "from-violet-500/15 to-transparent",
+    gradient: "from-violet-500/20 to-transparent",
   },
   {
     label: "Domains Built",
@@ -19,7 +19,7 @@ const stats = [
     suffix: "+",
     icon: Layers,
     color: "#06b6d4",
-    gradient: "from-cyan-500/15 to-transparent",
+    gradient: "from-cyan-500/20 to-transparent",
   },
   {
     label: "Production Systems",
@@ -27,7 +27,7 @@ const stats = [
     suffix: "+",
     icon: Server,
     color: "#34d399",
-    gradient: "from-emerald-500/15 to-transparent",
+    gradient: "from-emerald-500/20 to-transparent",
   },
   {
     label: "Years Learning",
@@ -35,12 +35,13 @@ const stats = [
     suffix: "+",
     icon: CalendarDays,
     color: "#d946ef",
-    gradient: "from-fuchsia-500/15 to-transparent",
+    gradient: "from-fuchsia-500/20 to-transparent",
   },
 ];
 
 function CountUp({ value, isVisible }: { value: number; isVisible: boolean }) {
   const [count, setCount] = useState(0);
+  const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -53,14 +54,25 @@ function CountUp({ value, isVisible }: { value: number; isVisible: boolean }) {
       const progress = Math.min((time - start) / duration, 1);
       const ease = 1 - Math.pow(1 - progress, 4);
       setCount(Math.floor(ease * value));
-      if (progress < 1) raf = requestAnimationFrame(animate);
+      if (progress < 1) {
+        raf = requestAnimationFrame(animate);
+      } else {
+        setCompleted(true);
+      }
     };
 
     raf = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(raf);
   }, [isVisible, value]);
 
-  return <span>{count}</span>;
+  return (
+    <span
+      className={completed ? "glow-pulse" : ""}
+      style={completed ? { textShadow: `0 0 20px rgba(139, 92, 246, 0.3)` } : {}}
+    >
+      {count}
+    </span>
+  );
 }
 
 export function Stats() {
@@ -68,7 +80,7 @@ export function Stats() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="stats" ref={ref} className="relative py-24 sm:py-32">
+    <section id="stats" ref={ref} className="relative py-28 sm:py-36">
       <div className="section-divider mb-20" />
 
       <motion.div
@@ -100,13 +112,13 @@ export function Stats() {
                 ease: [0.23, 1, 0.32, 1],
               }}
             >
-              <div className="glass-card gradient-border group relative overflow-hidden rounded-3xl p-7">
+              <div className="glass-card gradient-border group relative overflow-hidden rounded-3xl p-7 transition-all duration-500 hover:scale-[1.03]">
                 {/* Background gradient */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 transition-opacity duration-500 group-hover:opacity-100`} />
 
                 <div className="relative">
                   <div
-                    className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl"
+                    className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(139,92,246,0.15)]"
                     style={{ background: `${stat.color}12` }}
                   >
                     <Icon className="h-5 w-5" style={{ color: stat.color }} />

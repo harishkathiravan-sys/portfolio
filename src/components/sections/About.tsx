@@ -11,6 +11,7 @@ const principles = [
     desc: "Designing systems around intelligence, not afterthoughts.",
     color: "text-violet-400",
     glow: "bg-violet-500/10",
+    shadow: "rgba(139, 92, 246, 0.2)",
   },
   {
     icon: Sparkles,
@@ -18,6 +19,7 @@ const principles = [
     desc: "Focus on reliability, usability, and maintainability.",
     color: "text-cyan-400",
     glow: "bg-cyan-500/10",
+    shadow: "rgba(34, 211, 238, 0.2)",
   },
   {
     icon: Layers,
@@ -25,6 +27,7 @@ const principles = [
     desc: "End-to-end delivery from UI to data flow.",
     color: "text-fuchsia-400",
     glow: "bg-fuchsia-500/10",
+    shadow: "rgba(217, 70, 239, 0.2)",
   },
   {
     icon: Globe,
@@ -32,6 +35,7 @@ const principles = [
     desc: "Web and mobile experiences with Flutter and React.",
     color: "text-emerald-400",
     glow: "bg-emerald-500/10",
+    shadow: "rgba(52, 211, 153, 0.2)",
   },
 ];
 
@@ -40,7 +44,7 @@ export function About() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" ref={ref} className="relative py-24 sm:py-32">
+    <section id="about" ref={ref} className="relative py-28 sm:py-36">
       <div className="section-divider mb-20" />
 
       <motion.div
@@ -58,20 +62,22 @@ export function About() {
         </h2>
       </motion.div>
 
-      <div className="mt-14 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="mt-14 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         {/* Bio */}
         <motion.div
-          className="glass-card rounded-3xl p-8 sm:p-10"
+          className="glass-card gradient-border group relative overflow-hidden rounded-3xl p-8 sm:p-10"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
         >
-          <p className="text-[15px] leading-[1.8] text-white/55 sm:text-[16px]">
+          {/* Shimmer on hover */}
+          <div className="card-shimmer" />
+          <p className="relative text-[15px] leading-[1.8] text-white/55 sm:text-[16px]">
             I am passionate about building intelligent applications that are not only technically
             strong but also polished, intuitive, and ready for real users. My work sits at the
             intersection of AI engineering, software craftsmanship, and product thinking.
           </p>
-          <p className="mt-5 text-[15px] leading-[1.8] text-white/40 sm:text-[16px]">
+          <p className="relative mt-5 text-[15px] leading-[1.8] text-white/40 sm:text-[16px]">
             I enjoy combining AI with web and mobile development to create systems that feel fast,
             modern, and trustworthy. Whether working on computer vision, NLP, or full stack
             applications, I aim to ship production-ready experiences with clear architecture and
@@ -84,7 +90,7 @@ export function About() {
           {principles.map((p, i) => (
             <motion.div
               key={p.title}
-              className="glass-card gradient-border group rounded-3xl p-6"
+              className="glass-card gradient-border group rounded-3xl p-6 transition-all duration-500 hover:translate-y-[-2px]"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{
@@ -93,7 +99,9 @@ export function About() {
                 ease: [0.23, 1, 0.32, 1],
               }}
             >
-              <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-xl ${p.glow}`}>
+              <div
+                className={`mb-3 flex h-9 w-9 items-center justify-center rounded-xl ${p.glow} transition-all duration-300 group-hover:shadow-[0_0_20px_${p.shadow}]`}
+              >
                 <p.icon className={`h-4 w-4 ${p.color}`} />
               </div>
               <p className="font-[family-name:var(--font-space-grotesk)] text-[14px] font-semibold text-white/85">

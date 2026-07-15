@@ -10,8 +10,8 @@ import { CustomCursor } from "@/components/layout/CustomCursor";
 import { AuroraBackground } from "@/components/effects/AuroraBackground";
 import { Particles } from "@/components/effects/Particles";
 import { MouseSpotlight } from "@/components/effects/MouseSpotlight";
+import { CinematicIntro } from "@/components/effects/CinematicIntro";
 
-import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Skills } from "@/components/sections/Skills";
 import { Experience } from "@/components/sections/Experience";
@@ -30,7 +30,10 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen">
-      {/* Loading */}
+      {/* Cinematic Intro (replaces LoadingScreen + Hero) */}
+      <CinematicIntro />
+
+      {/* Loading (returns null, kept for backwards compat) */}
       <LoadingScreen />
 
       {/* Scroll progress */}
@@ -38,6 +41,9 @@ export default function Home() {
         className="fixed left-0 top-0 z-[90] h-[2px] origin-left bg-gradient-to-r from-violet-500 via-cyan-400 to-fuchsia-500"
         style={{ scaleX }}
       />
+
+      {/* Noise overlay */}
+      <div className="noise-overlay" aria-hidden="true" />
 
       {/* Global effects */}
       <AuroraBackground />
@@ -51,7 +57,6 @@ export default function Home() {
 
       {/* Sections */}
       <main className="relative z-10 mx-auto max-w-7xl">
-        <Hero />
         <About />
         <Skills />
         <Experience />

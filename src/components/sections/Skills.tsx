@@ -71,7 +71,7 @@ export function Skills() {
   const [activeGroup, setActiveGroup] = useState(0);
 
   return (
-    <section id="skills" ref={ref} className="relative py-24 sm:py-32">
+    <section id="skills" ref={ref} className="relative py-28 sm:py-36">
       <div className="section-divider mb-20" />
 
       <motion.div
@@ -111,12 +111,22 @@ export function Skills() {
                     : "border border-transparent hover:bg-white/[0.03]",
                 )}
               >
+                {/* Active glow border */}
+                {isActive && (
+                  <div
+                    className="absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-full"
+                    style={{
+                      background: `linear-gradient(180deg, ${group.color}, transparent)`,
+                      boxShadow: `0 0 12px ${group.color}40`,
+                    }}
+                  />
+                )}
                 <div
                   className={cn(
                     "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-all duration-300",
                     isActive ? "bg-white/[0.08]" : "bg-white/[0.03]",
                   )}
-                  style={isActive ? { boxShadow: `0 0 20px ${group.color}15` } : {}}
+                  style={isActive ? { boxShadow: `0 0 20px ${group.color}20` } : {}}
                 >
                   <Icon
                     className="h-4 w-4 transition-colors duration-300"
@@ -146,9 +156,9 @@ export function Skills() {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeGroup}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
+              initial={{ opacity: 0, y: 12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -12, scale: 0.98 }}
               transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
             >
               <div className="mb-6 flex items-center gap-3">
@@ -156,10 +166,10 @@ export function Skills() {
                   const Icon = skillGroups[activeGroup].icon;
                   return (
                     <div
-                      className="flex h-10 w-10 items-center justify-center rounded-xl"
+                      className="flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300"
                       style={{
                         background: `${skillGroups[activeGroup].color}12`,
-                        boxShadow: `0 0 24px ${skillGroups[activeGroup].color}10`,
+                        boxShadow: `0 0 24px ${skillGroups[activeGroup].color}15`,
                       }}
                     >
                       <Icon
@@ -186,9 +196,9 @@ export function Skills() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3, delay: j * 0.04 }}
-                    className="tech-chip"
+                    className="tech-chip cursor-default"
                     style={{
-                      borderColor: `${skillGroups[activeGroup].color}15`,
+                      borderColor: `${skillGroups[activeGroup].color}20`,
                     }}
                   >
                     <span
@@ -200,10 +210,10 @@ export function Skills() {
                 ))}
               </div>
 
-              {/* Decorative bar */}
+              {/* Decorative bar with shimmer */}
               <div className="mt-8 h-1 overflow-hidden rounded-full bg-white/[0.04]">
                 <motion.div
-                  className="h-full rounded-full"
+                  className="shimmer relative h-full rounded-full"
                   style={{ background: skillGroups[activeGroup].color }}
                   initial={{ width: "0%" }}
                   animate={{ width: "100%" }}

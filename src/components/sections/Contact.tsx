@@ -2,7 +2,8 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Mail, Github, Linkedin, ArrowRight, Send } from "lucide-react";
+import { Mail, Github, Linkedin, Send } from "lucide-react";
+import { MagneticButton } from "@/components/effects/MagneticButton";
 
 const githubProfile = "https://github.com/harishkathiravan-sys";
 const linkedinProfile = "https://www.linkedin.com/in/harish-kathiravan-05b229304";
@@ -18,7 +19,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" ref={ref} className="relative py-24 sm:py-32">
+    <section id="contact" ref={ref} className="relative py-28 sm:py-36">
       <div className="section-divider mb-20" />
 
       <motion.div
@@ -51,11 +52,11 @@ export function Contact() {
           <div className="mt-6 space-y-3">
             {[
               {
-                  icon: Mail,
-                  label: "harishkathiravan93@gmail.com",
-                  href: "https://mail.google.com/mail/?view=cm&fs=1&to=harishkathiravan93@gmail.com",
-                  color: "text-cyan-400/70",
-                },
+                icon: Mail,
+                label: "harishkathiravan93@gmail.com",
+                href: "https://mail.google.com/mail/?view=cm&fs=1&to=harishkathiravan93@gmail.com",
+                color: "text-cyan-400/70",
+              },
               {
                 icon: Github,
                 label: "github.com/harishkathiravan-sys",
@@ -87,7 +88,7 @@ export function Contact() {
                     ease: [0.23, 1, 0.32, 1],
                   }}
                 >
-                  <Icon className={`h-4 w-4 ${item.color}`} />
+                  <Icon className={`h-4 w-4 transition-transform duration-300 group-hover:rotate-[-8deg] group-hover:scale-110 ${item.color}`} />
                   <span className="text-[13px] text-white/50 transition-colors duration-300 group-hover:text-white/70">
                     {item.label}
                   </span>
@@ -130,10 +131,11 @@ export function Contact() {
                     className="premium-input"
                   />
                   <div
-                    className="pointer-events-none absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-violet-500 to-cyan-400 transition-all duration-500"
+                    className="pointer-events-none absolute bottom-0 left-0 h-[2px] rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 transition-all duration-500"
                     style={{
                       width: focusedField === field.name ? "100%" : "0%",
                       opacity: focusedField === field.name ? 1 : 0,
+                      boxShadow: focusedField === field.name ? "0 0 12px rgba(139, 92, 246, 0.3)" : "none",
                     }}
                   />
                 </div>
@@ -155,10 +157,11 @@ export function Contact() {
                 className="premium-input"
               />
               <div
-                className="pointer-events-none absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-violet-500 to-cyan-400 transition-all duration-500"
+                className="pointer-events-none absolute bottom-0 left-0 h-[2px] rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 transition-all duration-500"
                 style={{
                   width: focusedField === "subject" ? "100%" : "0%",
                   opacity: focusedField === "subject" ? 1 : 0,
+                  boxShadow: focusedField === "subject" ? "0 0 12px rgba(139, 92, 246, 0.3)" : "none",
                 }}
               />
             </div>
@@ -178,21 +181,24 @@ export function Contact() {
                 className="premium-input resize-none"
               />
               <div
-                className="pointer-events-none absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-violet-500 to-cyan-400 transition-all duration-500"
+                className="pointer-events-none absolute bottom-0 left-0 h-[2px] rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 transition-all duration-500"
                 style={{
                   width: focusedField === "message" ? "100%" : "0%",
                   opacity: focusedField === "message" ? 1 : 0,
+                  boxShadow: focusedField === "message" ? "0 0 12px rgba(139, 92, 246, 0.3)" : "none",
                 }}
               />
             </div>
 
-            <button
-              type="submit"
-              className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 px-6 py-3 text-[13px] font-semibold text-[#030014] shadow-[0_0_30px_rgba(139,92,246,0.2)] transition-all duration-300 hover:shadow-[0_0_50px_rgba(34,211,238,0.25)]"
-            >
-              <Send className="h-3.5 w-3.5" />
-              Send Message
-            </button>
+            <MagneticButton ripple>
+              <button
+                type="submit"
+                className="cta-premium text-[13px]"
+              >
+                <Send className="h-3.5 w-3.5" />
+                Send Message
+              </button>
+            </MagneticButton>
           </form>
         </motion.div>
       </div>

@@ -21,6 +21,7 @@ const projects = [
     ],
     github: githubProfile,
     metric: "Adaptive neuro-AI interface",
+    accent: "#8b5cf6",
   },
   {
     name: "RajiniVision AI",
@@ -34,6 +35,7 @@ const projects = [
     ],
     github: githubProfile,
     metric: "Live gesture interpretation",
+    accent: "#06b6d4",
   },
   {
     name: "MailShield AI",
@@ -47,6 +49,7 @@ const projects = [
     ],
     github: githubProfile,
     metric: "Defensive AI for inbox security",
+    accent: "#d946ef",
   },
   {
     name: "Complaint Routing System",
@@ -59,6 +62,7 @@ const projects = [
     ],
     github: githubProfile,
     metric: "Faster support resolution",
+    accent: "#d946ef",
   },
   {
     name: "TravelBuddy",
@@ -71,6 +75,7 @@ const projects = [
     ],
     github: githubProfile,
     metric: "Personalized mobile travel companion",
+    accent: "#06b6d4",
   },
   {
     name: "KwikKart",
@@ -84,6 +89,7 @@ const projects = [
     ],
     github: githubProfile,
     metric: "Scalable commerce foundation",
+    accent: "#22d3ee",
   },
 ];
 
@@ -92,7 +98,7 @@ export function Projects() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="projects" ref={ref} className="relative py-24 sm:py-32">
+    <section id="projects" ref={ref} className="relative py-28 sm:py-36">
       <div className="section-divider mb-20" />
 
       <motion.div
@@ -122,10 +128,20 @@ export function Projects() {
               ease: [0.23, 1, 0.32, 1],
             }}
           >
-            <TiltCard className="h-full">
-              <div className="glass-card gradient-border flex h-full flex-col rounded-3xl p-7">
+            <TiltCard className="h-full" glareColor={`${project.accent}18`}>
+              <div className="glass-card gradient-border group relative flex h-full flex-col overflow-hidden rounded-3xl p-7">
+                {/* Accent glow behind card */}
+                <div
+                  className="pointer-events-none absolute -inset-1 rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                  style={{
+                    background: `radial-gradient(ellipse at 50% 0%, ${project.accent}12, transparent 70%)`,
+                  }}
+                />
+                {/* Shimmer */}
+                <div className="card-shimmer" />
+
                 {/* Header */}
-                <div className="flex items-start justify-between gap-4">
+                <div className="relative flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
                     <p className="text-[11px] uppercase tracking-[0.25em] text-white/25">
                       {project.metric}
@@ -134,22 +150,27 @@ export function Projects() {
                       {project.name}
                     </h3>
                   </div>
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.03] text-white/30 transition-all duration-300 group-hover:scale-110 group-hover:text-violet-400">
+                  <div
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.03] text-white/30 transition-all duration-300 group-hover:scale-110 group-hover:text-violet-400 group-hover:shadow-[0_0_16px_rgba(139,92,246,0.15)]"
+                  >
                     <Cpu className="h-4 w-4" />
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="mt-4 text-[13px] leading-relaxed text-white/40">
+                <p className="relative mt-4 text-[13px] leading-relaxed text-white/40">
                   {project.description}
                 </p>
 
                 {/* Tech chips */}
-                <div className="mt-5 flex flex-wrap gap-1.5">
+                <div className="relative mt-5 flex flex-wrap gap-1.5">
                   {project.tech.map((t) => (
                     <span
                       key={t.name}
-                      className="tech-chip"
+                      className="tech-chip transition-all duration-300 hover:scale-105"
+                      style={{
+                        borderColor: `${t.color}20`,
+                      }}
                     >
                       <span
                         className="tech-chip-dot"
@@ -161,19 +182,19 @@ export function Projects() {
                 </div>
 
                 {/* Actions */}
-                <div className="mt-auto flex gap-2 pt-6">
+                <div className="relative mt-auto flex gap-2 pt-6">
                   <a
                     href={project.github}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[12px] font-medium text-white/50 transition-all duration-300 hover:border-white/15 hover:bg-white/[0.06] hover:text-white/80"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[12px] font-medium text-white/50 transition-all duration-300 hover:border-white/15 hover:bg-white/[0.06] hover:text-white/80 hover:shadow-[0_0_12px_rgba(139,92,246,0.1)]"
                   >
                     <Github className="h-3.5 w-3.5" />
                     Code
                   </a>
                   <a
                     href="#"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[12px] font-medium text-white/50 transition-all duration-300 hover:border-white/15 hover:bg-white/[0.06] hover:text-white/80"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-[12px] font-medium text-white/50 transition-all duration-300 hover:border-white/15 hover:bg-white/[0.06] hover:text-white/80 hover:shadow-[0_0_12px_rgba(34,211,238,0.1)]"
                   >
                     <ExternalLink className="h-3.5 w-3.5" />
                     Demo

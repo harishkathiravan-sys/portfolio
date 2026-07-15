@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Sparkles, Menu, X, Sun, Moon } from "lucide-react";
@@ -44,9 +44,9 @@ export function Navbar() {
     <>
       <motion.header
         className={cn(
-          "fixed left-0 right-0 z-50 transition-colors duration-500",
+          "fixed left-0 right-0 z-50 transition-all duration-500",
           scrolled
-            ? "border border-white/[0.06] bg-[rgba(3,0,20,0.7)] backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+            ? "border border-white/[0.06] bg-[rgba(3,0,20,0.75)] shadow-[0_8px_40px_rgba(0,0,0,0.5),0_0_80px_rgba(139,92,246,0.04)]"
             : "border-b border-transparent bg-transparent",
         )}
         style={{
@@ -55,12 +55,19 @@ export function Navbar() {
           marginLeft: "auto",
           marginRight: "auto",
           borderRadius: navRadius,
+          backdropFilter: scrolled ? "blur(40px) saturate(1.2)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(40px) saturate(1.2)" : "none",
         }}
       >
+        {/* Top edge light when scrolled */}
+        {scrolled && (
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-[1px] rounded-[inherit]" style={{ background: "linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.15) 30%, rgba(34, 211, 238, 0.1) 70%, transparent)" }} />
+        )}
+
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-6 lg:px-8">
           <Link href="#hero" className="group flex items-center gap-3">
-            <div className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all duration-300 group-hover:border-violet-500/30 group-hover:shadow-[0_0_20px_rgba(139,92,246,0.2)]">
-              <Sparkles className="h-4 w-4 text-violet-400" />
+            <div className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all duration-300 group-hover:border-violet-500/30 group-hover:shadow-[0_0_20px_rgba(139,92,246,0.3)]">
+              <Sparkles className="h-4 w-4 text-violet-400 transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(139,92,246,0.5)]" />
             </div>
             <div className="hidden sm:block">
               <p className="font-[family-name:var(--font-space-grotesk)] text-[13px] font-semibold tracking-[0.2em] text-white/80 uppercase">
@@ -88,6 +95,7 @@ export function Navbar() {
                     <motion.div
                       layoutId="nav-active"
                       className="absolute inset-0 rounded-full bg-white/[0.07] border border-white/[0.08]"
+                      style={{ boxShadow: "0 0 20px rgba(139, 92, 246, 0.1)" }}
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -100,7 +108,7 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setDarkMode((v) => !v)}
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/60 transition-all duration-300 hover:border-white/20 hover:text-white"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/60 transition-all duration-300 hover:border-white/20 hover:text-white hover:shadow-[0_0_12px_rgba(139,92,246,0.15)]"
               aria-label="Toggle theme"
             >
               {darkMode ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
@@ -120,7 +128,8 @@ export function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="border-t border-white/[0.06] bg-[rgba(3,0,20,0.95)] px-5 py-4 backdrop-blur-2xl lg:hidden"
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className="border-t border-white/[0.06] bg-[rgba(3,0,20,0.95)] px-5 py-4 backdrop-blur-[40px] lg:hidden"
           >
             <div className="flex flex-col gap-1">
               {navItems.map((item) => (
