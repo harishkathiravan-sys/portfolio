@@ -7,7 +7,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/layout/CustomCursor";
 
-import { CinematicIntro } from "@/components/effects/CinematicIntro";
+import { LiquidGlassIntro } from "@/components/effects/LiquidGlassIntro";
 
 import { About } from "@/components/sections/About";
 import { Skills } from "@/components/sections/Skills";
@@ -27,7 +27,7 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen">
-      <CinematicIntro />
+      <LiquidGlassIntro />
       <LoadingScreen />
 
       {/* Scroll progress — thin, minimal */}
