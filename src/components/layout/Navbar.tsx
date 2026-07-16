@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
-import { Sparkles, Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { cn } from "@/lib/utils";
 
@@ -26,11 +26,8 @@ export function Navbar() {
   const activeSection = useActiveSection(sectionIds);
 
   const { scrollY } = useScroll();
-  const navTop = useTransform(scrollY, [0, 100], [16, 12]);
-  const navWidth = useTransform(scrollY, [0, 100], ["100%", "min(96%, 1200px)"]);
-  const navRadius = useTransform(scrollY, [0, 100], ["0px", "24px"]);
-  const navPaddingY = useTransform(scrollY, [0, 100], [14, 10]);
-  const navPaddingX = useTransform(scrollY, [0, 100], [24, 28]);
+  const navWidth = useTransform(scrollY, [0, 100], ["100%", "92%"]);
+  const navRadius = useTransform(scrollY, [0, 100], ["0px", "22px"]);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 50);
@@ -46,74 +43,38 @@ export function Navbar() {
     <>
       <motion.header
         className={cn(
-          "fixed left-0 right-0 z-50",
+          "fixed left-0 right-0 z-50 transition-all duration-500",
+          scrolled
+            ? "border border-[rgba(255,255,255,0.08)] bg-[rgba(15,15,16,0.72)] shadow-[0_4px_24px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.04)]"
+            : "border-b border-[rgba(255,255,255,0.06)] bg-transparent",
         )}
         style={{
-          top: navTop,
+          top: scrolled ? "12px" : "0px",
           width: navWidth,
           marginLeft: "auto",
           marginRight: "auto",
           borderRadius: navRadius,
-          paddingLeft: navPaddingX,
-          paddingRight: navPaddingX,
-          paddingTop: navPaddingY,
-          paddingBottom: navPaddingY,
-          background: scrolled
-            ? "rgba(10, 10, 30, 0.65)"
-            : "transparent",
-          border: scrolled
-            ? "1px solid rgba(255, 255, 255, 0.06)"
-            : "1px solid transparent",
-          borderBottom: scrolled
-            ? "1px solid rgba(255, 255, 255, 0.06)"
-            : "1px solid rgba(255, 255, 255, 0.06)",
-          backdropFilter: scrolled ? "blur(40px) saturate(1.3)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(40px) saturate(1.3)" : "none",
-          boxShadow: scrolled
-            ? "0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.03) inset, 0 1px 0 rgba(255,255,255,0.05) inset, 0 0 80px rgba(139, 92, 246, 0.05)"
-            : "none",
-          transition: "background 0.5s cubic-bezier(0.23, 1, 0.32, 1), border 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
+          backdropFilter: scrolled ? "blur(40px) saturate(1.2)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(40px) saturate(1.2)" : "none",
         }}
       >
-        {/* Top edge light line when scrolled */}
-        {scrolled && (
-          <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-[1px] rounded-[inherit]"
-            style={{
-              background:
-                "linear-gradient(90deg, transparent 5%, rgba(139, 92, 246, 0.2) 25%, rgba(167, 139, 250, 0.12) 50%, rgba(34, 211, 238, 0.15) 75%, transparent 95%)",
-            }}
-          />
-        )}
-
-        {/* Inner glass highlight when scrolled */}
-        {scrolled && (
-          <div
-            className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-30"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 40%)",
-            }}
-          />
-        )}
-
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3 sm:px-6 lg:px-8">
           {/* Logo */}
-          <Link href="#hero" className="group relative flex items-center gap-3">
-            <div className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] transition-all duration-500 group-hover:border-violet-500/40 group-hover:bg-violet-500/[0.08] group-hover:shadow-[0_0_24px_rgba(139,92,246,0.25)]">
-              <Sparkles className="h-4 w-4 text-violet-400 transition-all duration-500 group-hover:text-violet-300 group-hover:drop-shadow-[0_0_10px_rgba(139,92,246,0.6)]" />
+          <Link href="#hero" className="group flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)] transition-all duration-300 group-hover:border-[rgba(255,255,255,0.16)]">
+              <span className="font-[family-name:var(--font-space-grotesk)] text-[11px] font-semibold text-white/70">
+                H
+              </span>
             </div>
             <div className="hidden sm:block">
-              <p className="font-[family-name:var(--font-space-grotesk)] text-[13px] font-semibold tracking-[0.2em] uppercase text-gradient-static">
+              <p className="font-[family-name:var(--font-space-grotesk)] text-[12px] font-semibold tracking-[0.06em] text-white/80">
                 Harish
               </p>
-              <p className="text-[10px] font-medium tracking-[0.15em] uppercase text-white/30 transition-colors duration-300 group-hover:text-white/50">
-                AI Engineer
-              </p>
+              <p className="text-[9px] tracking-[0.08em] text-white/30 uppercase">AI Engineer</p>
             </div>
           </Link>
 
-          {/* Desktop nav */}
+          {/* Nav items */}
           <nav className="hidden items-center gap-0.5 lg:flex">
             {navItems.map((item) => {
               const isActive = activeSection === item.href.replace("#", "");
@@ -122,27 +83,17 @@ export function Navbar() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "relative rounded-full px-3.5 py-1.5 text-[12px] font-medium tracking-wide transition-all duration-300",
+                    "relative rounded-full px-3 py-1.5 text-[11px] font-medium tracking-[0.02em] transition-all duration-300",
                     isActive
-                      ? "text-white"
-                      : "text-white/40 hover:text-white/75",
+                      ? "text-white/90"
+                      : "text-white/35 hover:text-white/60",
                   )}
                 >
                   {isActive && (
                     <motion.div
                       layoutId="nav-active"
-                      className="absolute inset-0 rounded-full border border-white/[0.08]"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%)",
-                        boxShadow:
-                          "0 0 24px rgba(139, 92, 246, 0.12), 0 0 4px rgba(139, 92, 246, 0.08) inset",
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 380,
-                        damping: 30,
-                      }}
+                      className="absolute inset-0 rounded-full bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.08)]"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />
                   )}
                   <span className="relative z-10">{item.label}</span>
@@ -151,98 +102,48 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Action buttons */}
-          <div className="flex items-center gap-2">
-            {/* Theme toggle */}
+          {/* Controls */}
+          <div className="flex items-center gap-1.5">
             <button
               onClick={() => setDarkMode((v) => !v)}
-              className="group/btn flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] text-white/50 transition-all duration-400 hover:border-violet-500/30 hover:bg-violet-500/[0.08] hover:text-white hover:shadow-[0_0_20px_rgba(139,92,246,0.15)]"
+              className="flex h-7 w-7 items-center justify-center rounded-full border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] text-white/40 transition-all duration-300 hover:border-[rgba(255,255,255,0.14)] hover:text-white/70"
               aria-label="Toggle theme"
             >
-              {darkMode ? (
-                <Sun className="h-[15px] w-[15px] transition-transform duration-500 group-hover/btn:rotate-90" />
-              ) : (
-                <Moon className="h-[15px] w-[15px] transition-transform duration-500 group-hover/btn:-rotate-90" />
-              )}
+              {darkMode ? <Sun className="h-3 w-3" /> : <Moon className="h-3 w-3" />}
             </button>
-
-            {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen((v) => !v)}
-              className="group/btn flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] text-white/50 transition-all duration-400 hover:border-violet-500/30 hover:bg-violet-500/[0.08] hover:text-white hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] lg:hidden"
+              className="flex h-7 w-7 items-center justify-center rounded-full border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] text-white/40 transition-all duration-300 hover:border-[rgba(255,255,255,0.14)] hover:text-white/70 lg:hidden"
               aria-label="Toggle navigation menu"
             >
-              <motion.div
-                initial={false}
-                animate={{ rotate: menuOpen ? 90 : 0 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20 }}
-              >
-                {menuOpen ? (
-                  <X className="h-[15px] w-[15px]" />
-                ) : (
-                  <Menu className="h-[15px] w-[15px]" />
-                )}
-              </motion.div>
+              {menuOpen ? <X className="h-3 w-3" /> : <Menu className="h-3 w-3" />}
             </button>
           </div>
         </div>
 
         {/* Mobile menu */}
-        <motion.div
-          initial={false}
-          animate={{
-            height: menuOpen ? "auto" : 0,
-            opacity: menuOpen ? 1 : 0,
-          }}
-          transition={{
-            height: { type: "spring", stiffness: 300, damping: 30 },
-            opacity: { duration: 0.2 },
-          }}
-          className="overflow-hidden lg:hidden"
-        >
-          <div className="border-t border-white/[0.05] pt-2 pb-1">
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
+            className="border-t border-[rgba(255,255,255,0.06)] bg-[rgba(15,15,16,0.95)] px-5 py-4 backdrop-blur-[40px] lg:hidden"
+          >
             <div className="flex flex-col gap-0.5">
-              {navItems.map((item, index) => {
-                const isActive = activeSection === item.href.replace("#", "");
-                return (
-                  <motion.a
-                    key={item.href}
-                    href={item.href}
-                    initial={false}
-                    animate={menuOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
-                    transition={{
-                      delay: menuOpen ? index * 0.04 : 0,
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 28,
-                    }}
-                    className={cn(
-                      "relative rounded-xl px-4 py-2.5 text-[13px] font-medium tracking-wide transition-all duration-300",
-                      isActive
-                        ? "text-white bg-white/[0.06] border border-white/[0.06]"
-                        : "text-white/45 hover:bg-white/[0.05] hover:text-white/80 border border-transparent",
-                    )}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {/* Hover glow effect per item */}
-                    <div className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-gradient-to-r from-violet-500/[0.04] to-cyan-500/[0.02]" />
-                    <span className="relative z-10">{item.label}</span>
-                    {isActive && (
-                      <div
-                        className="absolute left-0 top-1/2 h-4 w-[2px] -translate-y-1/2 rounded-full"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, rgba(139, 92, 246, 0.6), rgba(34, 211, 238, 0.4))",
-                          boxShadow: "0 0 8px rgba(139, 92, 246, 0.3)",
-                        }}
-                      />
-                    )}
-                  </motion.a>
-                );
-              })}
+              {navItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-xl px-4 py-2.5 text-[13px] text-white/40 transition-all duration-300 hover:bg-[rgba(255,255,255,0.04)] hover:text-white/70"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ))}
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        )}
       </motion.header>
     </>
   );

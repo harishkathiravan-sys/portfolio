@@ -5,10 +5,7 @@ import { cn } from "@/lib/utils";
 export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn(
-        "glass-card gradient-border rounded-3xl transition-all duration-500 hover:translate-y-[-2px]",
-        className,
-      )}
+      className={cn("glass-card rounded-3xl transition-all duration-400 hover:-translate-y-0.5", className)}
       {...props}
     />
   );

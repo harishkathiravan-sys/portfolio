@@ -7,9 +7,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/layout/CustomCursor";
 
-import { AuroraBackground } from "@/components/effects/AuroraBackground";
-import { Particles } from "@/components/effects/Particles";
-import { MouseSpotlight } from "@/components/effects/MouseSpotlight";
 import { CinematicIntro } from "@/components/effects/CinematicIntro";
 
 import { About } from "@/components/sections/About";
@@ -30,38 +27,19 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen">
-      {/* Cinematic Intro (replaces LoadingScreen + Hero) */}
       <CinematicIntro />
-
-      {/* Loading (returns null, kept for backwards compat) */}
       <LoadingScreen />
 
-      {/* Scroll progress bar */}
+      {/* Scroll progress — thin, minimal */}
       <motion.div
-        className="fixed left-0 top-0 z-[90] h-[3px] origin-left"
-        style={{
-          scaleX,
-          background: "linear-gradient(90deg, #8b5cf6, #22d3ee, #d946ef, #8b5cf6)",
-          backgroundSize: "200% 100%",
-          boxShadow: "0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(34, 211, 238, 0.2)",
-        }}
+        className="fixed left-0 top-0 z-[90] h-[2px] origin-left bg-white/20"
+        style={{ scaleX }}
       />
 
-      {/* Noise overlay */}
-      <div className="noise-overlay" aria-hidden="true" />
-
-      {/* Global effects */}
-      <AuroraBackground />
-      <div className="animated-grid" aria-hidden="true" />
-      <Particles />
-      <MouseSpotlight />
       <CustomCursor />
-
-      {/* Navigation */}
       <Navbar />
 
-      {/* Sections */}
-      <main className="relative z-10 mx-auto max-w-7xl">
+      <main className="relative z-10 mx-auto max-w-5xl">
         <About />
         <Skills />
         <Experience />
@@ -71,7 +49,6 @@ export default function Home() {
         <Contact />
       </main>
 
-      {/* Footer */}
       <Footer />
     </div>
   );

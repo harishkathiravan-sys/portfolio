@@ -108,19 +108,18 @@ export function Projects() {
         transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
         className="text-center"
       >
-        <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.4em] text-violet-300/50">
+        <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.3em] text-white/25">
           Featured Projects
         </p>
         <h2 className="font-[family-name:var(--font-space-grotesk)] text-[clamp(1.75rem,4vw,3.25rem)] leading-tight font-semibold tracking-[-0.02em] text-white/90">
           Selected work blending
           <br />
-          <span className="text-gradient-static">AI engineering with product design.</span>
+          AI engineering with product design.
         </h2>
-        <div className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-violet-400/40 to-transparent" />
       </motion.div>
 
       {/* Project grid */}
-      <div className="mt-16 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-16 grid gap-10 md:grid-cols-2 xl:grid-cols-3">
         {projects.map((project, i) => (
           <motion.div
             key={project.name}
@@ -132,28 +131,8 @@ export function Projects() {
               ease: [0.23, 1, 0.32, 1],
             }}
           >
-            <TiltCard className="h-full" glareColor={`${project.accent}18`}>
-              <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:bg-white/[0.035] hover:shadow-[0_20px_60px_-12px_rgba(0,0,0,0.5)]" style={{ border: "1px solid rgba(255,255,255,0.06)" }}>
-
-                {/* Gradient accent bar at top */}
-                <div
-                  className="h-[3px] w-full shrink-0 transition-all duration-500 group-hover:h-[4px]"
-                  style={{
-                    background: `linear-gradient(90deg, ${project.accent}00, ${project.accent}, ${project.accent}00)`,
-                  }}
-                />
-
-                {/* Accent glow on hover */}
-                <div
-                  className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-600 group-hover:opacity-100"
-                  style={{
-                    background: `radial-gradient(ellipse at 50% -10%, ${project.accent}15, transparent 60%)`,
-                    boxShadow: `inset 0 1px 0 0 ${project.accent}10`,
-                  }}
-                />
-
-                {/* Inner shadow for depth */}
-                <div className="pointer-events-none absolute inset-0 rounded-3xl shadow-[inset_0_2px_20px_-4px_rgba(0,0,0,0.3)] group-hover:shadow-[inset_0_2px_20px_-4px_rgba(0,0,0,0.2)] transition-shadow duration-500" />
+            <TiltCard className="h-full" glareColor="rgba(255,255,255,0.03)">
+              <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl glass-card transition-all duration-500 hover:-translate-y-1">
 
                 {/* Card content */}
                 <div className="relative flex flex-1 flex-col p-7 sm:p-8">
@@ -161,32 +140,22 @@ export function Projects() {
                   {/* Header row */}
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">
-                      <h3
-                        className="font-[family-name:var(--font-space-grotesk)] text-[22px] font-bold tracking-[-0.01em] text-white/95 transition-colors duration-300 group-hover:text-white"
-                      >
+                      <h3 className="font-[family-name:var(--font-space-grotesk)] text-[22px] font-bold tracking-[-0.01em] text-white/90">
                         {project.name}
                       </h3>
                     </div>
-                    <div
-                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04] text-white/30 transition-all duration-400 group-hover:scale-110 group-hover:border-white/[0.12] group-hover:bg-white/[0.08]"
-                      style={{
-                        color: `${project.accent}80`,
-                      }}
-                    >
-                      <Cpu className="h-[18px] w-[18px]" style={{ color: `var(--tw-shadow-color, ${project.accent}90)` }} />
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.05] text-white/30 transition-all duration-300 group-hover:bg-white/[0.08]">
+                      <Cpu className="h-[18px] w-[18px] text-white/30" />
                     </div>
                   </div>
 
                   {/* Metric tagline */}
-                  <p
-                    className="mt-3 text-[13px] font-medium tracking-wide"
-                    style={{ color: `${project.accent}cc` }}
-                  >
+                  <p className="mt-3 text-[13px] font-medium tracking-wide text-white/25">
                     {project.metric}
                   </p>
 
                   {/* Description */}
-                  <p className="mt-4 text-[13px] leading-[1.7] text-white/38">
+                  <p className="mt-4 text-[13px] leading-[1.7] text-white/40">
                     {project.description}
                   </p>
 
@@ -195,16 +164,9 @@ export function Projects() {
                     {project.tech.map((t) => (
                       <span
                         key={t.name}
-                        className="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[11px] font-medium text-white/50 transition-all duration-300 hover:scale-105 hover:text-white/75"
-                        style={{
-                          borderColor: `${t.color}25`,
-                          backgroundColor: `${t.color}08`,
-                        }}
+                        className="tech-chip inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-medium text-white/50 transition-all duration-300 hover:text-white/70"
                       >
-                        <span
-                          className="h-1.5 w-1.5 rounded-full"
-                          style={{ background: t.color }}
-                        />
+                        <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
                         {t.name}
                       </span>
                     ))}
@@ -216,14 +178,14 @@ export function Projects() {
                       href={project.github}
                       target="_blank"
                       rel="noreferrer"
-                      className="glass-button inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm px-5 py-2.5 text-[12px] font-semibold uppercase tracking-wider text-white/50 transition-all duration-400 hover:border-white/[0.15] hover:bg-white/[0.08] hover:text-white/85 hover:shadow-[0_0_20px_-4px_rgba(139,92,246,0.25)]"
+                      className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-5 py-2.5 text-[12px] font-semibold uppercase tracking-wider text-white/50 transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.06] hover:text-white/80"
                     >
                       <Github className="h-3.5 w-3.5" />
                       Code
                     </a>
                     <a
                       href="#"
-                      className="glass-button inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm px-5 py-2.5 text-[12px] font-semibold uppercase tracking-wider text-white/50 transition-all duration-400 hover:border-white/[0.15] hover:bg-white/[0.08] hover:text-white/85 hover:shadow-[0_0_20px_-4px_rgba(34,211,238,0.25)]"
+                      className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-5 py-2.5 text-[12px] font-semibold uppercase tracking-wider text-white/50 transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.06] hover:text-white/80"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
                       Demo
