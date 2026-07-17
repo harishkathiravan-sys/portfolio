@@ -16,15 +16,17 @@ export function GlassText({ progress }: GlassTextProps) {
   useFrame(() => {
     const p = progress.current;
 
-    // HK: visible 0.70-0.85
-    const hkOpacity = p < 0.70 ? 0
-      : p < 0.78 ? (p - 0.70) / 0.08
+    // HK: appear 0.60-0.72, fade 0.78-0.85
+    const hkOpacity = p < 0.60 ? 0
+      : p < 0.72 ? (p - 0.60) / 0.12
+      : p < 0.78 ? 1
       : p < 0.85 ? 1 - (p - 0.78) / 0.07
       : 0;
 
-    // Name: visible 0.80-0.92
-    const nameOpacity = p < 0.80 ? 0
-      : p < 0.86 ? (p - 0.80) / 0.06
+    // Name: appear 0.70-0.80, fade 0.86-0.92
+    const nameOpacity = p < 0.70 ? 0
+      : p < 0.80 ? (p - 0.70) / 0.10
+      : p < 0.86 ? 1
       : p < 0.92 ? 1 - (p - 0.86) / 0.06
       : 0;
 

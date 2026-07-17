@@ -1,9 +1,8 @@
 "use client";
 
 import { useRef, useEffect, useCallback } from "react";
-import gsap from "gsap";
 
-export type IntroPhase = "black" | "reveal" | "glass" | "orbit" | "assemble" | "text" | "dissolve" | "done";
+export type IntroPhase = "black" | "reveal" | "drift" | "converge" | "emerge" | "push" | "arrive" | "done";
 
 interface UseIntroTimelineReturn {
   progress: { current: number };
@@ -31,8 +30,9 @@ export function useIntroTimeline(onComplete: () => void): UseIntroTimelineReturn
       return;
     }
 
+    const isMobile = window.innerWidth < 768;
+    const duration = isMobile ? 8000 : 10500; // 8s mobile, 10.5s desktop
     startTime.current = performance.now();
-    const duration = 9500; // ~9.5 seconds
 
     const tick = () => {
       if (skipped.current) return;
@@ -40,14 +40,14 @@ export function useIntroTimeline(onComplete: () => void): UseIntroTimelineReturn
       const p = Math.min(elapsed / duration, 1);
       progress.current = p;
 
-      // Update phase
-      if (p < 0.05) setPhase("black");
-      else if (p < 0.25) setPhase("reveal");
-      else if (p < 0.45) setPhase("glass");
-      else if (p < 0.65) setPhase("orbit");
-      else if (p < 0.75) setPhase("assemble");
-      else if (p < 0.88) setPhase("text");
-      else if (p < 1.0) setPhase("dissolve");
+      // Phase boundaries (7 phases)
+      if (p < 0.14) setPhase("black");       // 0-1.5s: darkness
+      else if (p < 0.33) setPhase("reveal"); // 1.5-3.5s: panels appear
+      else if (p < 0.52) setPhase("drift");  // 3.5-5.5s: peak glass beauty
+      else if (p < 0.67) setPhase("converge"); // 5.5-7.0s: magnetic assembly
+      else if (p < 0.81) setPhase("emerge"); // 7.0-8.5s: HK + name reveal
+      else if (p < 0.90) setPhase("push");   // 8.5-9.5s: camera pushes through
+      else if (p < 1.0) setPhase("arrive");  // 9.5-10.5s: merge into hero
       else {
         setPhase("done");
         onComplete();

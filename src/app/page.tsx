@@ -8,6 +8,7 @@ import { CustomCursor } from "@/components/layout/CustomCursor";
 
 import { IntroScene } from "@/components/intro/IntroScene";
 
+import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Skills } from "@/components/sections/Skills";
 import { Experience } from "@/components/sections/Experience";
@@ -39,6 +40,7 @@ export default function Home() {
       <Navbar />
 
       <main className="relative z-10 mx-auto max-w-5xl">
+        <Hero />
         <About />
         <Skills />
         <Experience />

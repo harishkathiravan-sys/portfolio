@@ -29,10 +29,10 @@ export function IntroScene() {
     setComplete(true);
     // Fade out canvas
     setCanvasOpacity(0);
-    // Fade out DOM overlay (subtitles, HK, etc.)
+    // Fade out DOM overlay (subtitles, HK)
     setOverlayOpacity(0);
     // Fully unmount after fade
-    setTimeout(() => setVisible(false), 900);
+    setTimeout(() => setVisible(false), 1000);
   }, [setComplete]);
 
   const { progress, phase, skipIntro } = useIntroTimeline(handleComplete);
@@ -40,15 +40,18 @@ export function IntroScene() {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 z-[100]" style={{ pointerEvents: phase === "done" ? "none" : "auto" }}>
+    <div
+      className="fixed inset-0 z-[100]"
+      style={{ pointerEvents: phase === "done" ? "none" : "auto" }}
+    >
       {/* Three.js Canvas */}
       {canvasOpacity > 0 && (
         <div
           className="absolute inset-0"
-          style={{ opacity: canvasOpacity, transition: "opacity 0.8s ease-out" }}
+          style={{ opacity: canvasOpacity, transition: "opacity 0.9s ease-out" }}
         >
           <Canvas
-            camera={{ position: [0, 0.5, 18], fov: 50, near: 0.1, far: 60 }}
+            camera={{ position: [0, 0.3, 20], fov: 50, near: 0.1, far: 60 }}
             dpr={[1, isMobile ? 1 : 1.5]}
             gl={{
               antialias: !isMobile,
@@ -77,10 +80,10 @@ export function IntroScene() {
         <div className="absolute inset-0 bg-[#0f0f10] pointer-events-none" />
       )}
 
-      {/* DOM text overlay — fades out and unmounts with the intro */}
+      {/* DOM text overlay — name persists, HK and subtitles fade */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ opacity: overlayOpacity, transition: "opacity 0.6s ease-out" }}
+        style={{ opacity: overlayOpacity, transition: "opacity 0.7s ease-out" }}
       >
         <DomOverlay progress={progress} />
       </div>

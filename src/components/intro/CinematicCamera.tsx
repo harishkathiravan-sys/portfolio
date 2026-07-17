@@ -8,17 +8,16 @@ interface CinematicCameraProps {
   progress: { current: number };
 }
 
-// Waypoints: [t, x, y, z]
+// Waypoints: [progress, x, y, z]
 const WAYPOINTS: [number, number, number, number][] = [
-  [0.0,  0,   0.5,  18],
-  [0.15, 2,   0.6,  15],
-  [0.30, 2.5, 0.4,  12],
-  [0.45, 0.5, 0.3,  10],
-  [0.55, -1.5, 0.1, 9],
-  [0.65, 0.8,  0,   7],
-  [0.75, 0,    0,   6],
-  [0.85, 0,    0,   4],
-  [1.0,  0,    0,  -4],
+  [0.00, 0,    0.3,  20],   // The Void — far away
+  [0.14, 0,    0.3,  18],   // Begin dolly
+  [0.33, 1.5,  0.4,  14],   // Drift right
+  [0.52, -0.8, 0.1,  10],   // Orbit left
+  [0.67, 0,    0,    7],    // Center on assembly
+  [0.81, 0,    0,    6.5],  // Hold for text
+  [0.90, 0,    0,    2],    // Push through
+  [1.00, 0,    0,   -2],    // Through into website
 ];
 
 function catmullRom(t: number, p0: number, p1: number, p2: number, p3: number): number {
@@ -37,7 +36,6 @@ function interpolateWaypoints(progress: number, axis: number): number {
   if (progress <= WAYPOINTS[0][0]) return WAYPOINTS[0][axis + 1];
   if (progress >= WAYPOINTS[n - 1][0]) return WAYPOINTS[n - 1][axis + 1];
 
-  // Find segment
   let seg = 0;
   for (let i = 0; i < n - 1; i++) {
     if (progress >= WAYPOINTS[i][0] && progress < WAYPOINTS[i + 1][0]) {
@@ -76,7 +74,7 @@ export function CinematicCamera({ progress }: CinematicCameraProps) {
     camera.position.set(x, y, z);
     camera.lookAt(0, 0, 0);
 
-    // Subtle FOV shift for cinematic zoom feel
+    // Subtle FOV shift
     if ("fov" in camera) {
       (camera as THREE.PerspectiveCamera).fov = 50 - p * 4;
       camera.updateProjectionMatrix();
