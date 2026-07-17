@@ -12,36 +12,33 @@ interface GlassTextProps {
 export function GlassText({ progress }: GlassTextProps) {
   const hkRef = useRef<THREE.Mesh>(null!);
   const nameRef = useRef<THREE.Mesh>(null!);
-  const hkOpacity = useRef(0);
-  const nameOpacity = useRef(0);
 
   useFrame(() => {
     const p = progress.current;
 
-    // HK fades in at 0.70-0.78, fades out at 0.78-0.85
-    if (p < 0.70) hkOpacity.current = 0;
-    else if (p < 0.78) hkOpacity.current = (p - 0.70) / 0.08;
-    else if (p < 0.85) hkOpacity.current = 1 - (p - 0.78) / 0.07;
-    else hkOpacity.current = 0;
+    // HK: visible 0.70-0.85
+    const hkOpacity = p < 0.70 ? 0
+      : p < 0.78 ? (p - 0.70) / 0.08
+      : p < 0.85 ? 1 - (p - 0.78) / 0.07
+      : 0;
 
-    // Name fades in at 0.80-0.86, fades out at 0.86-0.92
-    if (p < 0.80) nameOpacity.current = 0;
-    else if (p < 0.86) nameOpacity.current = (p - 0.80) / 0.06;
-    else if (p < 0.92) nameOpacity.current = 1 - (p - 0.86) / 0.06;
-    else nameOpacity.current = 0;
+    // Name: visible 0.80-0.92
+    const nameOpacity = p < 0.80 ? 0
+      : p < 0.86 ? (p - 0.80) / 0.06
+      : p < 0.92 ? 1 - (p - 0.86) / 0.06
+      : 0;
 
-    // Update material opacity
     if (hkRef.current) {
       const mat = hkRef.current.material as THREE.MeshPhysicalMaterial;
       if (mat) {
-        mat.opacity = hkOpacity.current;
+        mat.opacity = hkOpacity;
         mat.transparent = true;
       }
     }
     if (nameRef.current) {
       const mat = nameRef.current.material as THREE.MeshPhysicalMaterial;
       if (mat) {
-        mat.opacity = nameOpacity.current;
+        mat.opacity = nameOpacity;
         mat.transparent = true;
       }
     }
@@ -49,7 +46,6 @@ export function GlassText({ progress }: GlassTextProps) {
 
   return (
     <group position={[0, 0.3, 0]}>
-      {/* HK initials — large, centered */}
       <Text
         ref={hkRef}
         font="/fonts/SpaceGrotesk-Bold.ttf"
@@ -62,19 +58,17 @@ export function GlassText({ progress }: GlassTextProps) {
         HK
         <meshPhysicalMaterial
           color="#f8f8ff"
-          transmission={0.85}
-          roughness={0.02}
-          thickness={0.8}
-          ior={1.45}
+          transmission={0.8}
+          roughness={0.05}
+          thickness={0.6}
+          ior={1.4}
           clearcoat={1}
-          clearcoatRoughness={0.05}
           transparent
           opacity={0}
           side={THREE.DoubleSide}
         />
       </Text>
 
-      {/* HARISH KATHIRAVAN — smaller, below HK */}
       <Text
         ref={nameRef}
         font="/fonts/SpaceGrotesk-Bold.ttf"
@@ -87,12 +81,11 @@ export function GlassText({ progress }: GlassTextProps) {
         HARISH KATHIRAVAN
         <meshPhysicalMaterial
           color="#ffffff"
-          transmission={0.8}
-          roughness={0.03}
-          thickness={0.6}
+          transmission={0.75}
+          roughness={0.05}
+          thickness={0.5}
           ior={1.4}
           clearcoat={1}
-          clearcoatRoughness={0.05}
           transparent
           opacity={0}
           side={THREE.DoubleSide}
