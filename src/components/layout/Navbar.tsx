@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { useActiveSection } from "@/hooks/useActiveSection";
+import { useIntroComplete } from "@/components/intro/IntroContext";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -24,6 +25,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   const activeSection = useActiveSection(sectionIds);
+  const { isComplete } = useIntroComplete();
 
   const { scrollY } = useScroll();
   const navWidth = useTransform(scrollY, [0, 100], ["100%", "92%"]);
@@ -44,6 +46,7 @@ export function Navbar() {
       <motion.header
         className={cn(
           "fixed left-0 right-0 z-50 transition-all duration-500",
+          !isComplete && "opacity-0 pointer-events-none",
           scrolled
             ? "border border-[rgba(255,255,255,0.08)] bg-[rgba(15,15,16,0.72)] shadow-[0_4px_24px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.04)]"
             : "border-b border-[rgba(255,255,255,0.06)] bg-transparent",

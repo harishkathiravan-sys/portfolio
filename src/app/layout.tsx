@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getSiteUrl } from "@/lib/site";
 import { SmoothScrollProvider } from "@/components/smooth-scroll-provider";
+import { IntroProvider } from "@/components/intro/IntroContext";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -80,7 +81,14 @@ export default function RootLayout({
       <body className="min-h-screen bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <SmoothScrollProvider>
-            {children}
+            <link
+              rel="preload"
+              href="/fonts/SpaceGrotesk-Bold.ttf"
+              as="font"
+              type="font/ttf"
+              crossOrigin="anonymous"
+            />
+            <IntroProvider>{children}</IntroProvider>
           </SmoothScrollProvider>
         </ThemeProvider>
       </body>

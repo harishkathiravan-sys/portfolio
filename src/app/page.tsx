@@ -2,12 +2,11 @@
 
 import { motion, useScroll, useSpring } from "framer-motion";
 
-import { LoadingScreen } from "@/components/layout/LoadingScreen";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CustomCursor } from "@/components/layout/CustomCursor";
 
-import { LiquidGlassIntro } from "@/components/effects/LiquidGlassIntro";
+import { IntroScene } from "@/components/intro/IntroScene";
 
 import { About } from "@/components/sections/About";
 import { Skills } from "@/components/sections/Skills";
@@ -27,8 +26,8 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen">
-      <LiquidGlassIntro />
-      <LoadingScreen />
+      {/* Cinematic 3D intro */}
+      <IntroScene />
 
       {/* Scroll progress — thin, minimal */}
       <motion.div
